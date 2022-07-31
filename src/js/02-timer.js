@@ -4,6 +4,8 @@ import "flatpickr/dist/flatpickr.min.css";
 const dataToCountInput = document.querySelector("#datetime-picker");
 
 let msSelectedTime = 0;
+let msTimeDiscrepancy = 0;
+let adaptedTimeDiscrepancy = 0;
 
 const options = {
     enableTime: true,
@@ -13,19 +15,26 @@ const options = {
 
     onClose(selectedDates) {
         msSelectedTime = selectedDates[0].valueOf();
+        const currentDate = new Date();
+        const msCurrentTime = currentDate.getTime();
+        msTimeDiscrepancy = msSelectedTime - msCurrentTime;
+        if (msTimeDiscrepancy <= 0) {
+            alert("Please choose a date in the future")
+        } else {
+            startCountingButton.disabled = false;
+        }
     },
 };
 
 const receivedDateTime = flatpickr(dataToCountInput, options);
 
 const startCountingButton = document.querySelector("[data-start]");
+startCountingButton.disabled = true;
 
 const displayDays = document.querySelector("[data-days]");
 const displayHours = document.querySelector("[data-hours]");
 const displayMinutes = document.querySelector("[data-minutes]");
 const displaySeconds = document.querySelector("[data-seconds]");
-
-
 
 function convertMs(ms) {
     // Number of milliseconds per unit of time
@@ -46,21 +55,28 @@ function convertMs(ms) {
     return { days, hours, minutes, seconds };
 }
 
+function addLeadingZero(value) {
+    return String(value).padStart(2, "0");
+}
+
 startCountingButton.addEventListener("click", () => {
 
-    const currentDate = new Date();
-    const msCurrentTime = currentDate.getTime();
+    let minusCheck = false;
 
-    const msTimeDiscrepancy = msSelectedTime - msCurrentTime;
+    let buttonIntervalId = setInterval(() => {
 
-    if (msTimeDiscrepancy <= 0) {
-        alert("Please choose a date in the future")
-    } else {
-        const adaptedTimeDiscrepancy = convertMs(msTimeDiscrepancy)
-        console.log(adaptedTimeDiscrepancy);
-        displayDays.textContent = adaptedTimeDiscrepancy.days;
-        displayHours.textContent = adaptedTimeDiscrepancy.hours;
-        displayMinutes.textContent = adaptedTimeDiscrepancy.minutes;
-        displaySeconds.textContent = adaptedTimeDiscrepancy.seconds;
-    }
+        const currentDateDisplay = new Date();
+        const msCurrentTimeDisplay = currentDateDisplay.getTime();
+        msTimeDiscrepancyDisplay = msSelectedTime - msCurrentTimeDisplay;
+        adaptedTimeDiscrepancyDisplay = convertMs(msTimeDiscrepancyDisplay);
+
+        displayDays.textContent = addLeadingZero(adaptedTimeDiscrepancyDisplay.days);
+        displayHours.textContent = addLeadingZero(adaptedTimeDiscrepancyDisplay.hours);
+        displayMinutes.textContent = addLeadingZero(adaptedTimeDiscrepancyDisplay.minutes);
+        displaySeconds.textContent = addLeadingZero(adaptedTimeDiscrepancyDisplay.seconds);
+
+        if (msTimeDiscrepancyDisplay < 1000) {
+            clearInterval(buttonIntervalId);
+        }
+    }, 1000);
 });
