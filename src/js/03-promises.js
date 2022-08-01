@@ -2,6 +2,8 @@ import Notiflix from 'notiflix';
 
 createPromisesForm = document.querySelector(".form");
 
+console.log(createPromisesForm);
+
 createPromisesForm.addEventListener("submit", onSubmit);
 
 let formOutPut = undefined;
