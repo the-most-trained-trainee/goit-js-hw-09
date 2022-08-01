@@ -17,26 +17,23 @@ function onSubmit(event) {
   event.preventDefault();
   formOutPut = formDataReceipt(event);
   for (let i = 0; i < formOutPut.amount; i++) {
-    createPromise(formOutPut.delay, formOutPut.step);
+    createPromise(i + 1, Number(formOutPut.delay) + Number(formOutPut.step) * i);
   }
   event.currentTarget.reset();
 }
 
 function createPromise(position, delay) {
-
-  const shouldResolve = Math.random() > 0.3;
-
-
-  const promise = new Promise();
-
-
-
-  if (shouldResolve) {
-    // Fulfill
-  } else {
-    // Reject
-  }
+  const promise = new Promise((resolve, reject) => {
+    const shouldResolve = Math.random() > 0.3;
+    setTimeout(() => {
+      if (shouldResolve) {
+        resolve(`Promise ${position} resolved in ${delay} ms`);
+      } else {
+        reject(`Promise ${position} rejected in ${delay} ms`);
+      }
+    }, delay);
+  });
+  promise
+    .then(result => console.log(result))
+    .catch(result => console.log(result))
 }
-
-
-// 43 17 
