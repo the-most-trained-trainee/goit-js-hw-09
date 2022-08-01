@@ -1,5 +1,6 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import Notiflix from 'notiflix';
 
 const dataToCountInput = document.querySelector("#datetime-picker");
 
@@ -19,7 +20,7 @@ const options = {
         const msCurrentTime = currentDate.getTime();
         msTimeDiscrepancy = msSelectedTime - msCurrentTime;
         if (msTimeDiscrepancy <= 0) {
-            alert("Please choose a date in the future")
+            Notiflix.Notify.warning("Please choose a date in the future")
         } else {
             startCountingButton.disabled = false;
         }
