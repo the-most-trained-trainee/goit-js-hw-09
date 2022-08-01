@@ -1,2 +1,0 @@
-let e;function r(e,r){Math.random(),new Promise}createPromisesForm=document.querySelector(".form"),createPromisesForm.addEventListener("submit",(function(t){t.preventDefault(),e=function(){const e=new FormData(createPromisesForm);let r={};return e.forEach(((e,t)=>{r[t]=e})),r}();for(let t=0;t<e.amount;t++)r(e.delay,e.step);t.currentTarget.reset()}));
-//# sourceMappingURL=03-promises.35b0c0f5.js.map
