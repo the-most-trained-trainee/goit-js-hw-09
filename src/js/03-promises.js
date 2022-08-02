@@ -1,6 +1,6 @@
 import Notiflix from 'notiflix';
 
-createPromisesForm = document.querySelector(".form");
+const createPromisesForm = document.querySelector(".form");
 
 console.log(createPromisesForm);
 

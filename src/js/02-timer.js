@@ -1,3 +1,4 @@
+"use strict";
 import Notiflix from 'notiflix';
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
@@ -19,6 +20,7 @@ const timeInput = {
         time_24hr: true,
         defaultDate: new Date(),
         minuteIncrement: 1,
+
         onClose(selectedDates) {
             msSelectedTime = selectedDates[0].valueOf();
             const currentDate = new Date();
@@ -59,7 +61,7 @@ const countdownTimer = {
             const currentDateDisplay = new Date();
             const msCurrentTimeDisplay = currentDateDisplay.getTime();
             const msTimeDiscrepancyDisplay = msSelectedTime - msCurrentTimeDisplay;
-            adaptedTimeDiscrepancyDisplay = this.convertMs(msTimeDiscrepancyDisplay);
+            const adaptedTimeDiscrepancyDisplay = this.convertMs(msTimeDiscrepancyDisplay);
             displayDays.textContent = this.addLeadingZero(adaptedTimeDiscrepancyDisplay.days);
             displayHours.textContent = this.addLeadingZero(adaptedTimeDiscrepancyDisplay.hours);
             displayMinutes.textContent = this.addLeadingZero(adaptedTimeDiscrepancyDisplay.minutes);
