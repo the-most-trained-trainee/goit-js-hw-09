@@ -18,10 +18,14 @@ function formDataReceipt() {
 function onSubmit(event) {
   event.preventDefault();
   formOutPut = formDataReceipt(event);
-  for (let i = 0; i < formOutPut.amount; i++) {
-    createPromise(i + 1, Number(formOutPut.delay) + Number(formOutPut.step) * i);
+  if (formOutPut.delay < 0 || formOutPut.step < 0 || formOutPut.amount < 1) {
+    Notiflix.Notify.warning("Please, enter valid data only")
+  } else {
+    for (let i = 0; i < formOutPut.amount; i++) {
+      createPromise(i + 1, Number(formOutPut.delay) + Number(formOutPut.step) * i);
+    }
+    event.currentTarget.reset();
   }
-  event.currentTarget.reset();
 }
 
 function createPromise(position, delay) {
